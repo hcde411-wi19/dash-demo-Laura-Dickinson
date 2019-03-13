@@ -1,0 +1,58 @@
+# -*- coding: utf-8 -*-
+import dash
+import dash_core_components as dcc
+import dash_html_components as html
+
+# static data
+pokemonType = ['Bulbasaur', 'Charmander', 'Squirtle', 'Caterpie', 'Weedle', 'Pidgey', 'Rattata']
+total_points = [318, 309, 314, 195, 195, 251, 253]
+
+hp = [45, 39, 44, 45, 40, 40, 30]
+attack = [49, 52, 48, 30, 35, 45, 56]
+special_attack = [65, 60, 50, 20, 20, 35, 25]
+defense = [49, 43, 65, 35, 30, 40, 35]
+special_defense = [65, 50, 64, 20, 20, 35, 35]
+speed = [45, 65, 43, 45, 50, 56, 72]
+
+# initialize Dash environment
+app = dash.Dash(__name__)
+
+# set up an layout
+app.layout = html.Div(children=[
+    # H1 title on the page
+    html.H1(children='Which Pokemon is best?'),
+
+    # a div to put a short description
+    html.Div(children='''
+        This bar graph shows the total, HP, attack, special attack, 
+        defense, special defense, and speed stats for seven different Pokemon.
+    '''),
+
+    # append the visualization to the page
+    dcc.Graph(
+        id='example-graph',
+        figure={
+            # configure the data
+            'data': [
+                # set x to be the type of Pokemon, y to be the stats, and graph to be a bar chart
+                {'x': pokemonType, 'y': total_points, 'type': 'bar', 'name': 'Total'},
+                {'x': pokemonType, 'y': hp, 'type': 'bar', 'name': 'HP'},
+                {'x': pokemonType, 'y': attack, 'type': 'bar', 'name': 'Attack'},
+                {'x': pokemonType, 'y': special_attack, 'type': 'bar', 'name': 'Special Attack'},
+                {'x': pokemonType, 'y': defense, 'type': 'bar', 'name': 'Defense'},
+                {'x': pokemonType, 'y': special_defense, 'type': 'bar', 'name': 'Special Defense'},
+                {'x': pokemonType, 'y': speed, 'type': 'bar', 'name': 'Speed'},
+            ],
+
+            # configure the layout of the visualization --
+            # create a title for the visualization
+            'layout': {
+                'title': 'Pokemon Statistics'
+            }
+        }
+    )
+])
+
+if __name__ == '_main_':
+    # start the Dash app
+    app.run_server(debug=True)
